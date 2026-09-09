@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "Dark PDF (local files)",
+    "version": "0.1.0",
+    "description": "Inverts colors inside local PDFs before Chrome's viewer renders them, so no screen filter is needed.",
+    "permissions": ["webNavigation", "tabs"],
+    "host_permissions": ["file:///*"],
+    "background": {
+        "service_worker": "background.js"
+    }
+}

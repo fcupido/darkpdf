@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        html, body { margin: 0; height: 100%; background: #282828; color: #ccc;
+                     font: 14px/1.5 system-ui, sans-serif; }
+        #frame { display: block; border: 0; width: 100%; height: 100%; }
+        #status { padding: 24px; }
+        #status a { color: #6cf; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="status">Inverting&hellip;</div>
+    <embed id="frame" class="hidden" type="application/pdf">
+    <script src="vendor/pdf-lib.min.js"></script>
+    <script src="invert.js"></script>
+    <script src="viewer.js"></script>
+</body>
+</html>
