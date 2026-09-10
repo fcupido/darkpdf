@@ -9,11 +9,20 @@
         #status { padding: 24px; }
         #status a { color: #6cf; }
         .hidden { display: none; }
+        #toggle {
+            position: fixed; right: 18px; bottom: 18px; z-index: 10;
+            padding: 6px 13px; border-radius: 20px;
+            border: 1px solid #5a5a5a; background: rgba(20, 20, 20, 0.75);
+            color: #ddd; font: 12px system-ui, sans-serif; cursor: pointer;
+            opacity: 0.25; transition: opacity 120ms ease;
+        }
+        #toggle:hover, #toggle:focus { opacity: 1; }
     </style>
 </head>
 <body>
     <div id="status">Inverting&hellip;</div>
     <embed id="frame" class="hidden" type="application/pdf">
+    <button id="toggle" class="hidden">Show original</button>
     <script src="vendor/pdf-lib.min.js"></script>
     <script src="invert.js"></script>
     <script src="viewer.js"></script>

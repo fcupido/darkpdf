@@ -12,8 +12,14 @@ const MODE = 'embed';
 // Passed to invertPDF(); see invert.js for what it does.
 const ENSURE_PAGE_GROUP = true;
 
+// A small button in the corner that switches back to the original. The toolbar
+// popup and the keyboard shortcut do the same thing; set this to false if you
+// would rather nothing floated over the page.
+const SHOW_INLINE_TOGGLE = true;
+
 const status = document.getElementById('status');
 const frame = document.getElementById('frame');
+const toggle = document.getElementById('toggle');
 const src = new URLSearchParams(location.search).get('src');
 
 function show(html) {
@@ -63,6 +69,16 @@ async function main() {
         frame.src = url;
         frame.classList.remove('hidden');
         status.classList.add('hidden');
+
+        if (SHOW_INLINE_TOGGLE) {
+            const shortcut = (await chrome.commands.getAll())
+                .find((c) => c.name === 'toggle-inversion');
+            toggle.title = shortcut && shortcut.shortcut
+                ? `Show the original (${shortcut.shortcut})`
+                : 'Show the original';
+            toggle.addEventListener('click', () => chrome.runtime.sendMessage({type: 'toggle'}));
+            toggle.classList.remove('hidden');
+        }
     } catch (err) {
         show(`Could not invert <b>${name}</b>.<br><br>${err.message}` +
              `<br><br><a href="#" id="original">Open the original instead</a>`);

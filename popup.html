@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0; width: 264px; padding: 14px;
+            background: #282828; color: #e8e8e8;
+            font: 13px/1.45 system-ui, sans-serif;
+        }
+        h1 { margin: 0 0 2px; font-size: 13px; font-weight: 600; }
+        #name {
+            margin-bottom: 12px; color: #9a9a9a; font-size: 12px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            direction: rtl; text-align: left;
+        }
+        label.row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 0; cursor: pointer;
+        }
+        label.row.disabled { opacity: 0.45; cursor: default; }
+        .row input { margin: 0; width: 15px; height: 15px; accent-color: #7ab8ff; }
+        .row span { flex: 1; }
+        .hint { color: #8a8a8a; font-size: 11px; margin: 2px 0 0 25px; }
+        hr { border: 0; border-top: 1px solid #3d3d3d; margin: 10px 0; }
+        footer { display: flex; justify-content: space-between; align-items: center;
+                 color: #8a8a8a; font-size: 11px; }
+        a { color: #7ab8ff; text-decoration: none; cursor: pointer; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Dark PDF</h1>
+    <div id="name">No PDF in this tab</div>
+
+    <label class="row" id="file-row">
+        <input type="checkbox" id="file-toggle">
+        <span>Invert this file</span>
+    </label>
+    <div class="hint" id="file-hint"></div>
+
+    <hr>
+
+    <label class="row">
+        <input type="checkbox" id="default-toggle">
+        <span>Invert local PDFs by default</span>
+    </label>
+
+    <footer>
+        <span id="shortcut"></span>
+        <a id="forget" hidden></a>
+    </footer>
+
+    <script src="popup.js"></script>
+</body>
+</html>

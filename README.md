@@ -32,11 +32,32 @@ search and links keep working.
 2. On the extension's card, enable **Allow access to file URLs**. Nothing works
    without it — that permission is what lets the viewer read the file.
 3. Open any local PDF.
+4. Optional: change the keyboard shortcut at `chrome://extensions/shortcuts`.
+   It defaults to **Alt+Shift+I**.
 
 Turn off Dark Reader's "Enable for PDF files" as well. It is not strictly
 required, since Dark Reader cannot inject into extension pages and so leaves
 this viewer alone, but leaving it on means any PDF this extension misses still
 gets the old treatment.
+
+## Control panel
+
+Three ways to turn inversion on or off, all doing the same thing:
+
+- **The toolbar icon** opens the panel: a toggle for the file in the current
+  tab, a toggle for whether local PDFs are inverted by default, and a line
+  saying whether this file is following the default or has its own remembered
+  choice.
+- **Alt+Shift+I** toggles the current tab without opening anything.
+- **The button in the bottom-right corner** of an inverted PDF, which fades in
+  when you point at it. Set `SHOW_INLINE_TOGGLE` to `false` in `viewer.js` if
+  you would rather nothing floated over the page.
+
+Toggling flips whatever is currently on screen and remembers that choice for
+that file, so reopening it later does the same thing. The panel's "Forget saved
+choices" link clears every remembered file at once. A file whose transform fails
+is remembered as not-inverted, so a broken document does not keep bouncing back
+into the viewer.
 
 ## How it works
 
@@ -137,6 +158,18 @@ embedded fonts. Then check:
 - Scroll to the end: every page inverted, not just the first.
 - Zoom in and out; the toolbar behaves normally.
 
+Then the control panel:
+
+- Click the toolbar icon: the file name shows, "Invert this file" is on, and the
+  hint reads "Following the default below."
+- Toggle it off. The tab reloads into the original, light PDF.
+- Reopen the panel: the toggle is off and the hint now reads "Remembered for
+  this file." Press Alt+Shift+I to bring the inversion back.
+- Close and reopen the file: it comes back the way you left it.
+- Turn "Invert local PDFs by default" off, then open a *different* PDF: it
+  opens light. The first file keeps its own remembered setting either way.
+- Click "Forget saved choices"; every file goes back to following the default.
+
 When something goes wrong:
 
 | Symptom | Likely cause |
@@ -146,6 +179,8 @@ When something goes wrong:
 | Page is white with invisible text | the white backdrop is not being painted; run level 1 |
 | Everything is light again | Dark Reader is still inverting PDFs on top of this |
 | Toolbar looks cut down | switch `MODE` to `'navigate'` in `viewer.js` |
+| A file always opens light | it has a remembered choice; toggle it in the panel, or use "Forget saved choices" |
+| Alt+Shift+I does nothing | another extension holds the shortcut; rebind at `chrome://extensions/shortcuts` |
 
 Two consoles are worth checking: the service worker's, from the extension's card
 on `chrome://extensions`, for redirect problems; and the viewer page's, via
@@ -179,7 +214,8 @@ Both at the top of `viewer.js`:
 
 ```
 manifest.json          MV3 manifest
-background.js          redirects file:// PDF navigations to the viewer
+background.js          redirects file:// PDF navigations, and owns the settings
+popup.html/.js         the control panel behind the toolbar icon
 viewer.html/.js        reads the file, runs the transform, shows the result
 invert.js              the transform, kept separate so it can be tested headlessly
 vendor/pdf-lib.min.js  pdf-lib 1.17.1, unmodified (MIT)

@@ -3,9 +3,27 @@
     "name": "Dark PDF (local files)",
     "version": "0.1.0",
     "description": "Inverts colors inside local PDFs before Chrome's viewer renders them, so no screen filter is needed.",
-    "permissions": ["webNavigation", "tabs"],
-    "host_permissions": ["file:///*"],
+    "permissions": [
+        "webNavigation",
+        "tabs",
+        "storage"
+    ],
+    "host_permissions": [
+        "file:///*"
+    ],
     "background": {
         "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Dark PDF"
+    },
+    "commands": {
+        "toggle-inversion": {
+            "suggested_key": {
+                "default": "Alt+Shift+I"
+            },
+            "description": "Invert this PDF, or show the original"
+        }
     }
 }
